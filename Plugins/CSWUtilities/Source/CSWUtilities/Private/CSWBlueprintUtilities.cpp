@@ -35,3 +35,8 @@ int32 UCSWBlueprintUtilities::Plus(int32 A, int32 B)
 {
 	return A + B;
 }
+
+int32 UCSWBlueprintUtilities::Minus(int32 A, int32 B)
+{
+	return A - B;
+}

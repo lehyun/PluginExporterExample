@@ -34,4 +34,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "CSW|Utilities|BlueprintLibrary", meta = (DisplayName = "CSW: Plus"))
 	static int32 Plus(int32 A, int32 B);
+
+	UFUNCTION(BlueprintPure, Category = "CSW|Utilities|BlueprintLibrary", meta = (DisplayName = "CSW: Minus"))
+	static int32 Minus(int32 A, int32 B);
 };
