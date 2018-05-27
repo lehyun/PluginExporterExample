@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "Content\\Scripts"
+		},
+		{
+			"path": "Plugins\\UnrealJS\\Content\\Scripts"
+		}
+	]
+}
