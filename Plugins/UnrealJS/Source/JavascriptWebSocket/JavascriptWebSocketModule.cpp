@@ -12,7 +12,8 @@ class FJavascripWebSocketModule : public IJavascriptWebSocketModule
 
 void FJavascripWebSocketModule::StartupModule()
 {
-
+	FName NAME_JavascriptCmd("JavascriptCmd");
+	GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("JavascripWebSocketModule started"));
 }
 
 

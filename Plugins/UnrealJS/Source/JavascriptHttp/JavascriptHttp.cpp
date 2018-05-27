@@ -1,4 +1,5 @@
 #include "IJavascriptHttpModule.h"
+#include "Misc/OutputDeviceRedirector.h"
 
 class FJavascripHttpModule : public IJavascriptHttpModule
 {
@@ -12,7 +13,8 @@ class FJavascripHttpModule : public IJavascriptHttpModule
 
 void FJavascripHttpModule::StartupModule()
 {
-
+	FName NAME_JavascriptCmd("JavascriptCmd");
+	GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("JavascripHttpModule started"));
 }
 
 

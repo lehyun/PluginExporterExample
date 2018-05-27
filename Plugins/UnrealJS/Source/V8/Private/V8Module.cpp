@@ -8,6 +8,9 @@ PRAGMA_DISABLE_SHADOW_VARIABLE_WARNINGS
 #include "JavascriptStats.h"
 #include "JavascriptSettings.h"
 #include "Containers/Ticker.h"
+#include "Containers/Queue.h"
+#include "Misc/Paths.h"
+#include "UObject/UObjectIterator.h"
 
 DEFINE_STAT(STAT_V8IdleTask);
 DEFINE_STAT(STAT_JavascriptDelegate);
@@ -180,6 +183,7 @@ public:
 		V8::Initialize();
 
 		FName NAME_JavascriptCmd("JavascriptCmd");
+		GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("V8Module started"));
 		GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, *FString::Printf(TEXT("Unreal.js started. V8 %d.%d.%d"), V8_MAJOR_VERSION, V8_MINOR_VERSION, V8_BUILD_NUMBER));
 	}
 

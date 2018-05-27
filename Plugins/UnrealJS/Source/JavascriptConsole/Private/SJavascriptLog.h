@@ -4,6 +4,7 @@
 #include "SMenuAnchor.h"
 #include "SListView.h"
 #include "STextComboBox.h"
+#include "SSearchBox.h"
 
 class FJavascriptLogTextLayoutMarshaller;
 

@@ -1,4 +1,5 @@
 #include "IJavascriptUMGModule.h"
+#include "Misc/OutputDeviceRedirector.h"
 
 class FJavascripUMGModule : public IJavascriptUMGModule
 {
@@ -12,7 +13,8 @@ class FJavascripUMGModule : public IJavascriptUMGModule
 
 void FJavascripUMGModule::StartupModule()
 {
-
+	FName NAME_JavascriptCmd("JavascriptCmd");
+	GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("JavascripUMGModule started"));
 }
 
 

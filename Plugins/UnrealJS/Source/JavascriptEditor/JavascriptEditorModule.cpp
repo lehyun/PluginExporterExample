@@ -150,6 +150,9 @@ void FJavascriptEditorModule::StartupModule()
 		bRegistered = true;
 	
 		FCoreDelegates::OnPreExit.AddRaw(this, &FJavascriptEditorModule::Unregister);
+
+		FName NAME_JavascriptCmd("JavascriptCmd");
+		GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("JavascriptEditorModule started"));
 	}
 #endif
 }

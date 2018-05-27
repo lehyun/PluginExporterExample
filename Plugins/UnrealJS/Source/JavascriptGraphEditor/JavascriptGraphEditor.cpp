@@ -27,6 +27,9 @@ class FJavascriptGraphEditor : public IJavascriptGraphEditor
 	{
 		GraphPanelNodeFactory_GenericGraph = MakeShareable(new FGraphPanelNodeFactory_GenericGraph());
 		FEdGraphUtilities::RegisterVisualNodeFactory(GraphPanelNodeFactory_GenericGraph);
+
+		FName NAME_JavascriptCmd("JavascriptCmd");
+		GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("JavascriptGraphEditor started"));
 	}
 
 	virtual void ShutdownModule() override

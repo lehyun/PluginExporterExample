@@ -77,6 +77,9 @@ void FJavascriptConsoleModule::StartupModule()
 		.SetIcon( FSlateIcon(FEditorStyle::GetStyleSetName(), "Log.TabIcon") );
 	
 	JavascriptLogHistory = MakeShareable(new FJavascriptLogHistory);
+
+	FName NAME_JavascriptCmd("JavascriptCmd");
+	GLog->Log(NAME_JavascriptCmd, ELogVerbosity::Log, TEXT("JavascriptConsoleModule started"));
 }
 
 void FJavascriptConsoleModule::ShutdownModule()
