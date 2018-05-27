@@ -1,0 +1,14 @@
+{
+  "name": "unrealjs-playground",
+  "version": "1.0.0",
+  "author": "Hyun Lee",
+  "license": "MIT",
+  "description": "unrealjs-playground",
+  "repository": {},
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "md5": "^2.2.1",
+    "react-umg": "^0.1.8",
+    "springy": "^2.7.1"
+  }
+}
