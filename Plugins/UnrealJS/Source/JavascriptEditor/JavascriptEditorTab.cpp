@@ -75,7 +75,9 @@ struct FJavascriptEditorTabTracker : public FGCObject
 		{
 			if (Widgets[Index] == Widget)
 			{
-				RemoveIndex(Index);
+				// HL: fixed the issue that it closes only the widget remaining the dock tab behind.
+				//RemoveIndex(Index);
+				Tabs[Index].Pin()->RequestCloseTab();
 				break;
 			}
 		}
