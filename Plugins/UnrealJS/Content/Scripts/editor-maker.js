@@ -29,19 +29,19 @@ if (!global.defaultGroup) {
 } 
 
 function MakeTab(opts,tab_fn,del_fn) {
-    opts = opts || {}
+    opts = opts || {};
 
-    var tab = new JavascriptEditorTab
+    var tab = new JavascriptEditorTab;
     
-    tab.TabId = opts.TabId || 'TestJSTab'
-    tab.Role = opts.Role || 'NomadTab'
-    tab.DisplayName = opts.DisplayName || '안녕하세요!'
-    tab.Group = opts.Group || global.defaultGroup
-    tab.OnSpawnTab.Add(tab_fn)
+    tab.TabId = opts.TabId || 'TestJSTab';
+    tab.Role = opts.Role || 'NomadTab';
+    tab.DisplayName = opts.DisplayName || '안녕하세요!';
+    tab.Group = opts.Group || global.defaultGroup;
+    tab.OnSpawnTab.Add(tab_fn);
     if (del_fn) {
-        tab.OnCloseTab.Add(del_fn)    
+        tab.OnCloseTab.Add(del_fn);
     }
-    return tab
+    return tab;
 }
 
 module.exports = {
@@ -69,6 +69,7 @@ module.exports = {
             $inner.push(child);
             where.AddChild(child);
         }
+
         if (opened) {
             opened.forEach(open => {
                 let old = SizeBox.C(open).GetChildAt(0);
@@ -76,8 +77,8 @@ module.exports = {
                 $inner.splice($inner.indexOf(old),1);
                 SizeBox.C(open).RemoveChildAt(0);
                 create_inner(main,open);      
-            })
-            return _ => {};
+            });
+            return opened.$spawner;
         }        
         
         opened = $tabs[id] = [];
@@ -103,6 +104,7 @@ module.exports = {
         tab.Commit();
         
         opened.$spawner = tab;
+        return tab;
     },
     commands : function make_commands(opts) {
         var commands = new JavascriptUICommands;

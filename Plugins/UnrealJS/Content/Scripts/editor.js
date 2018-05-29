@@ -9,7 +9,6 @@
         let root_path = Root.GetDir('GameContent') + 'Scripts'
 		
 		function read_dir(dir) {
-			console.log(`searching dir ... ${dir}`);
 			let out = Root.ReadDirectory(dir)
 			if (out.$) {				
 				let items = _.filter(out.OutItems,(item) => !item.bIsDirectory && /^((?!node_modules).)*$/.test(item.Name) && /extension[^\.]*\.js$/.test(item.Name))
@@ -22,6 +21,7 @@
 			}
 		} 
 	
+		console.warn(`Javascript hot-reloading(recursive): ${root_path}`);
 		read_dir(root_path)
 		
 		function spawn(what) {
