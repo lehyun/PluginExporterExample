@@ -7,10 +7,6 @@ PRAGMA_DISABLE_SHADOW_VARIABLE_WARNINGS
 #include "IV8.h"
 #include "JavascriptStats.h"
 #include "JavascriptSettings.h"
-#include "Containers/Ticker.h"
-#include "Containers/Queue.h"
-#include "Misc/Paths.h"
-#include "UObject/UObjectIterator.h"
 
 DEFINE_STAT(STAT_V8IdleTask);
 DEFINE_STAT(STAT_JavascriptDelegate);

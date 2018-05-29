@@ -35,8 +35,14 @@ public class V8 : ModuleRules
 
     public V8(ReadOnlyTargetRules Target) : base(Target)
     {
-        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-        PrivateIncludePaths.AddRange(new string[]
+		//Override UnrealEngineBuildTool to speedup compilation times
+		MinFilesUsingPrecompiledHeaderOverride = 1;
+		bFasterWithoutUnity = true;
+
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		bEnforceIWYU = true;
+
+		PrivateIncludePaths.AddRange(new string[]
         {
             Path.Combine(ThirdPartyPath, "v8", "include"),
             Path.Combine("V8", "Private")

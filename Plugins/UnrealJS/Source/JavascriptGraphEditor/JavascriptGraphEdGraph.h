@@ -1,6 +1,5 @@
 #pragma once
 
-#include "EdGraph/EdGraph.h"
 #include "JavascriptGraphEdGraph.generated.h"
 
 UCLASS()

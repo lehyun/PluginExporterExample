@@ -28,8 +28,14 @@ public class JavascriptWebSocket : ModuleRules
 
     public JavascriptWebSocket(ReadOnlyTargetRules Target) : base(Target)
 	{
-        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-        PublicDependencyModuleNames.AddRange(new string[] {
+		//Override UnrealEngineBuildTool to speedup compilation times
+		MinFilesUsingPrecompiledHeaderOverride = 1;
+		bFasterWithoutUnity = true;
+
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		bEnforceIWYU = true;
+
+		PublicDependencyModuleNames.AddRange(new string[] {
             "Core",
             "CoreUObject",
             "Engine",

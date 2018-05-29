@@ -23,18 +23,20 @@
     }
 }
 
-if (!global.group) {
-    global.group = JavascriptEditorLibrary.GetGroup('Root').AddGroup('Unreal.js').AddGroup('Extension demo')
+// default group
+if (!global.defaultGroup) {
+    global.defaultGroup = JavascriptEditorLibrary.GetGroup('Root').AddGroup('Unreal.js').AddGroup('Extension demo');
 } 
 
 function MakeTab(opts,tab_fn,del_fn) {
     opts = opts || {}
 
     var tab = new JavascriptEditorTab
+    
     tab.TabId = opts.TabId || 'TestJSTab'
     tab.Role = opts.Role || 'NomadTab'
     tab.DisplayName = opts.DisplayName || '안녕하세요!'
-    tab.Group = opts.Group || global.group
+    tab.Group = opts.Group || global.defaultGroup
     tab.OnSpawnTab.Add(tab_fn)
     if (del_fn) {
         tab.OnCloseTab.Add(del_fn)    
@@ -47,90 +49,94 @@ module.exports = {
     toolbar : box_extension('ToolbarExtensions'),
     tab : MakeTab,
     tabSpawner : function (opts,main) {
-        let $tabs = global.$tabs = global.$tabs || {}
-        let $inner = global.$tabinner = global.$tabinner || []        
-        let $fns = global.$tabfns = global.$tabfns || {}
-        const id = opts.TabId
+        let $tabs = global.$tabs = global.$tabs || {};
+        let $inner = global.$tabinner = global.$tabinner || [];
+        let $fns = global.$tabfns = global.$tabfns || {};
+        const id = opts.TabId;
         
-        $fns[id] = main
-        let opened = $tabs[id]
+        $fns[id] = main;
+        let opened = $tabs[id];
         
         function create_inner(fn,where) {
-            let child
+            let child;
             try {
-                child = fn()    
+                child = fn();
             } catch (e) {
-                console.error(String(e),e.stack)
-                child = new TextBlock()
-                child.SetText(`ERROR:${String(e)}`)
+                console.error(String(e),e.stack);
+                child = new TextBlock();
+                child.SetText(`ERROR:${String(e)}`);
             }
-            $inner.push(child)
-            where.AddChild(child)
+            $inner.push(child);
+            where.AddChild(child);
         }
         if (opened) {
             opened.forEach(open => {
-                let old = SizeBox.C(open).GetChildAt(0)
-                old.destroy && old.destroy()
-                $inner.splice($inner.indexOf(old),1)
-                SizeBox.C(open).RemoveChildAt(0)
-                create_inner(main,open)                
+                let old = SizeBox.C(open).GetChildAt(0);
+                old.destroy && old.destroy();
+                $inner.splice($inner.indexOf(old),1);
+                SizeBox.C(open).RemoveChildAt(0);
+                create_inner(main,open);      
             })
-            return _ => {}
+            return _ => {};
         }        
         
-        opened = $tabs[id] = []
+        opened = $tabs[id] = [];
         
-        let tab = MakeTab(opts, (context) => {
-            let widget = new SizeBox()
-            let fn = $fns[id]            
-            opened.push(widget)
-            create_inner(fn,widget)
-            
-            return widget
-        },widget => {
-            let content = widget.GetContentSlot().Content
-            content.destroy()
-            
-            $inner.splice($inner.indexOf(widget.GetChildAt(0)),1)
-            opened.splice(opened.indexOf(widget),1)     
-        })
-        tab.Commit()
+        let tab = MakeTab(opts, 
+            (context) => {
+                // class SizeBox extends ContentWidget extends extends PanelWidget extends Widget extends Visual extends UObject
+                let widget = new SizeBox();
+                let fn = $fns[id];            
+                opened.push(widget);
+                create_inner(fn,widget);
+                return widget;
+            }, 
+            (widget) => {
+                // ContentWidget.GetContentSlot()
+                let content = widget.GetContentSlot().Content;
+                content.destroy();
+                
+                $inner.splice($inner.indexOf(widget.GetChildAt(0)),1);
+                opened.splice(opened.indexOf(widget),1);
+            }
+        );
+        tab.Commit();
         
-        opened.$spawner = tab
+        opened.$spawner = tab;
     },
     commands : function make_commands(opts) {
-        var commands = new JavascriptUICommands
+        var commands = new JavascriptUICommands;
 
-        opts = opts || {}
-        commands.ContextName = opts.name || opts.Name || ''
-        commands.ContextDesc = opts.description || opts.Description || 'context description'
-        commands.ContextNameParent = opts.parent || opts.Parent || ''
-        commands.StyleSetName = opts.styleset || opts.Styleset || 'None'
+        opts = opts || {};
+        commands.ContextName = opts.name || opts.Name || '';
+        commands.ContextDesc = opts.description || opts.Description || 'context description';
+        commands.ContextNameParent = opts.parent || opts.Parent || '';
+        commands.StyleSetName = opts.styleset || opts.Styleset || 'None';
 
-        var org_cmds = opts.commands || {}
+        var org_cmds = opts.commands || {};
 
-        var cmds = []
+        var cmds = [];
         for (var k in org_cmds) {
-            var v = org_cmds[k]
+            var v = org_cmds[k];
             cmds.push({
                 Id : k,
                 FriendlyName : v.name || v.Name,
                 Description : v.description || v.Description,
                 ActionType : v.type || v.Type || 'Button'
-            })
+            });
         }
-        commands.Commands = cmds
+        commands.Commands = cmds;
         commands.OnExecuteAction.Add( function (action) {
             var fn = org_cmds[action]
             fn && fn.execute && fn.execute()
             fn && fn.Execute && fn.Execute()
-        })
+        });
 
         "OnCanExecuteAction/enabled OnIsActionChecked/checked OnIsActionButtonVisible/visible".split(' ')
         .forEach( function (v) {
-            var xy = v.split('/')
-            var x = xy[0]
-            var y = xy[1]
+            var xy = v.split('/');
+            var x = xy[0];
+            var y = xy[1];
             commands[x].Add( function (action) {
                 var fn = org_cmds[action]
                 if (fn && fn.query) {
@@ -140,31 +146,31 @@ module.exports = {
                     return fn.Query(y)
                 }
                 return true
-            })
-        })
-        return commands
+            });
+        });
+        return commands;
     },
     editor : function make_editor(opts) {
-        var editor = new JavascriptAssetEditorToolkit
-        editor.ToolkitFName = 'jseditor'
-        editor.BaseToolkitFName = 'jseditor_base'
-        editor.ToolkitName = 'jseditor toolkit'
-        editor.WorldCentricTabPrefix = 'jseditor'
+        var editor = new JavascriptAssetEditorToolkit;
+        editor.ToolkitFName = 'jseditor';
+        editor.BaseToolkitFName = 'jseditor_base';
+        editor.ToolkitName = 'jseditor toolkit';
+        editor.WorldCentricTabPrefix = 'jseditor';
 
-        editor.Layout = JSON.stringify(opts.layout)
+        editor.Layout = JSON.stringify(opts.layout);
 
         if (opts.tabs != undefined) {
-            editor.Tabs = opts.tabs
+            editor.Tabs = opts.tabs;
         }
         if (opts.commands != undefined) {
-            editor.Commands = opts.commands
+            editor.Commands = opts.commands;
         }
         if (opts.menu != undefined) {
-            editor.MenuExtender = opts.menu
+            editor.MenuExtender = opts.menu;
         }
         if (opts.toolbar != undefined) {
-            editor.ToolbarExtender = opts.toolbar
+            editor.ToolbarExtender = opts.toolbar;
         }
-        return editor
+        return editor;
     }
 }

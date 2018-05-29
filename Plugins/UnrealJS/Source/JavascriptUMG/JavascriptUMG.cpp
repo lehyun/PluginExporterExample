@@ -1,5 +1,4 @@
 #include "IJavascriptUMGModule.h"
-#include "Misc/OutputDeviceRedirector.h"
 
 class FJavascripUMGModule : public IJavascriptUMGModule
 {

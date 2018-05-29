@@ -7,8 +7,14 @@ namespace UnrealBuildTool.Rules
 		public JavascriptGraphEditor(ReadOnlyTargetRules Target) 
             : base(Target)
 		{
-            PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-            PrivateIncludePaths.AddRange(
+			//Override UnrealEngineBuildTool to speedup compilation times
+			MinFilesUsingPrecompiledHeaderOverride = 1;
+			bFasterWithoutUnity = true;
+
+			PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+			bEnforceIWYU = true;
+
+			PrivateIncludePaths.AddRange(
 				new string[] {
                     "JavascriptGraphEditor/Private",
 				}

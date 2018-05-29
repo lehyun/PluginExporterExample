@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Modules/ModuleInterface.h"
-#include "ModuleManager.h"
 
 /**
 * The public interface to this module. 
