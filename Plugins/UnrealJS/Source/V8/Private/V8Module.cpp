@@ -169,10 +169,12 @@ public:
 	{
 		Paths.Add(GetGameScriptsDirectory());
 		//@HACK : Dirty hacks
+		// Project plugins --
+		Paths.Add(GetPluginScriptsDirectory4());
+		// Engine plugins --
 		Paths.Add(GetPluginScriptsDirectory());
 		Paths.Add(GetPluginScriptsDirectory2());
 		Paths.Add(GetPluginScriptsDirectory3());
-		Paths.Add(GetPluginScriptsDirectory4());
 		Paths.Add(GetPakPluginScriptsDirectory());
 
 		const UJavascriptSettings& Settings = *GetDefault<UJavascriptSettings>();
