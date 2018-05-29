@@ -69,7 +69,7 @@ struct FJavascriptEditorTabTracker : public FGCObject
 	TArray<UWidget*> Widgets;
 	TArray<TWeakPtr<SDockTab>> Tabs;
 
-	void OnTabClosed(UWidget* Widget)
+	void RequestCloseTab(UWidget* Widget)
 	{
 		for (int Index = Tabs.Num() - 1; Index >= 0; --Index)
 		{
@@ -82,7 +82,19 @@ struct FJavascriptEditorTabTracker : public FGCObject
 			}
 		}
 	}
+	void RequestCloseTab(UJavascriptEditorTab* Spawner)
+	{
+		for (int Index = Tabs.Num() - 1; Index >= 0; --Index)
+		{
+			if (Spawners[Index] == Spawner)
+			{
+				Tabs[Index].Pin()->RequestCloseTab();
+				break;
+			}
+		}
+	}
 
+	// callback when a tab is closed.
 	void OnTabClosed(TSharedRef<SDockTab> Tab)
 	{
 		Tab->SetContent(SNew(SSpacer));
@@ -103,11 +115,15 @@ struct FJavascriptEditorTabTracker : public FGCObject
 		{
 			Tabs[Index].Pin()->SetContent(SNew(SSpacer));
 		}
-		Spawners[Index]->OnCloseTab.ExecuteIfBound(Widgets[Index]);
-
-		Spawners.RemoveAt(Index, 1);
-		Tabs.RemoveAt(Index, 1);
-		Widgets.RemoveAt(Index, 1);
+		// HL: fixed an issue that the editor crashes while closing on a certain circumstance
+		auto Spawner = Spawners[Index];
+		auto Widget = Widgets[Index];
+		Spawners.RemoveAt(Index);
+		Tabs.RemoveAt(Index);
+		Widgets.RemoveAt(Index);
+		
+		if (Spawner->OnCloseTab.IsBound())
+			Spawner->OnCloseTab.ExecuteIfBound(Widget);
 	}
 
 	virtual void AddReferencedObjects(FReferenceCollector& Collector) override
@@ -178,7 +194,18 @@ TSharedPtr<SDockTab> UJavascriptEditorTab::FindDocktab(UWidget* Widget)
 
 void UJavascriptEditorTab::CloseTab(UWidget* Widget)
 {
-	GEditorTabTracker.OnTabClosed(Widget);
+	GEditorTabTracker.RequestCloseTab(Widget);
+}
+
+void UJavascriptEditorTab::Close()
+{
+	GEditorTabTracker.RequestCloseTab(this);
+}
+
+void UJavascriptEditorTab::Show()
+{
+	auto TabManager = CachedTabManager.Pin();
+	if (TabManager.IsValid()) TabManager->InvokeTab(TabId);
 }
 
 void UJavascriptEditorTab::Register(TSharedRef<FTabManager> TabManager, UObject* Context, TSharedRef<FWorkspaceItem> Group)
@@ -186,6 +213,7 @@ void UJavascriptEditorTab::Register(TSharedRef<FTabManager> TabManager, UObject*
 	FSlateIcon Icon(FEditorStyle::GetStyleSetName(), "DeviceDetails.Tabs.ProfileEditor");
 
 	const bool bGlobal = TabManager == FGlobalTabmanager::Get();
+	CachedTabManager = TabManager;
 
 	auto Lambda = FOnSpawnTab::CreateLambda([this, Context, bGlobal](const FSpawnTabArgs& SpawnTabArgs){
 		auto Widget = this->TakeWidget(Context);
@@ -210,7 +238,7 @@ void UJavascriptEditorTab::Register(TSharedRef<FTabManager> TabManager, UObject*
 		return MajorTab;
 	});	
 
-	auto& SpawnerEntry = bIsNomad && TabManager == FGlobalTabmanager::Get() ? FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId, Lambda) : TabManager->RegisterTabSpawner(TabId, Lambda);
+	auto& SpawnerEntry = bIsNomad && bGlobal ? FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId, Lambda) : TabManager->RegisterTabSpawner(TabId, Lambda);
 	SpawnerEntry
 		.SetDisplayName(DisplayName)
 		.SetIcon(Icon)
@@ -226,7 +254,8 @@ void UJavascriptEditorTab::Unregister(TSharedRef<FTabManager> TabManager)
 	else
 	{
 		TabManager->UnregisterTabSpawner(TabId);
-	}	
+	}
+	CachedTabManager = nullptr;
 }
 
 void UJavascriptEditorTab::Register()
