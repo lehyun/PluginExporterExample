@@ -48,7 +48,7 @@ public:
 
 #if WITH_EDITOR
 	UPROPERTY()
-	FSpawnTab OnSpawnTab;	
+	FSpawnTab OnSpawnTab;
 
 	UPROPERTY()
 	FCloseTab OnCloseTab;
@@ -80,6 +80,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Javascript | Editor")
 	void CloseTab(UWidget* Widget);
 
+	UFUNCTION(BlueprintCallable, Category = "Javascript | Editor")
+	void Close();
+
+	UFUNCTION(BlueprintCallable, Category = "Javascript | Editor")
+	void Show();
+
 	bool bRegistered;
 
 	UWidget* TakeWidget(UObject* Context);
@@ -91,6 +97,7 @@ public:
 
 	virtual void BeginDestroy() override;
 
+	TWeakPtr<FTabManager> CachedTabManager;
 	void Register(TSharedRef<FTabManager> TabManager, UObject* Context, TSharedRef<FWorkspaceItem> Group);
 	void Unregister(TSharedRef<FTabManager> TabManager);
 
