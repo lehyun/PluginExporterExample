@@ -71,6 +71,14 @@ void UJavascriptListView::RequestListRefresh()
 	}	
 }
 
+void UJavascriptListView::RebuildList()
+{
+	if (MyListView.IsValid())
+	{
+		MyListView->RebuildList();
+	}
+}
+
 void UJavascriptListView::GetSelectedItems(TArray<UObject*>& OutItems)
 {
 	if (MyListView.IsValid())

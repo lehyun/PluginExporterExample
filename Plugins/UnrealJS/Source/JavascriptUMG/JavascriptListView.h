@@ -26,6 +26,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Behavior")
 	void RequestListRefresh();
 
+	/** Rebuild the list*/
+	UFUNCTION(BlueprintCallable, Category = "Behavior")
+	void RebuildList();
+
 	UFUNCTION(BlueprintCallable, Category = "Behavior")
 	void GetSelectedItems(TArray<UObject*>& OutItems);
 

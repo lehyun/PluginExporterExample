@@ -94,9 +94,6 @@
         span: function (opts, array) {
             return UMG.generic2(HorizontalBox, opts, Array.prototype.slice.call(arguments, 1))
         },
-        box: function (opts, template) {
-            return UMG.generic2(SizeBox, opts, Array.prototype.slice.call(arguments, 1))
-        },
         img: function (opts, array) {
             return UMG.generic2(UImage, opts, Array.prototype.slice.call(arguments, 1))
         },
