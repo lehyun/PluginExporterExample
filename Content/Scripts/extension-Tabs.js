@@ -1,9 +1,12 @@
+
 'use strict';
 
 function main(){
     const UMG = require('UMG');
     const I = require('instantiator');
     const EMaker = require('editor-maker');
+
+
 
     // 'Unreal.js/Samples' 메뉴그룹이 없다면 생성한다. 
     if(!global.editorGroup){
@@ -270,7 +273,7 @@ function main(){
     /** @type {JavascriptEditorTab} */
     rootWindowTab = EMaker.tabSpawner(
         {
-            DisplayName:'Sample Tabs',
+            DisplayName:'Sample Multi-Tab Window',
             TabId: 'Sampvarabs@',
             Role: EJavascriptTabRole.MajorTab,
             Group: global.editorGroup

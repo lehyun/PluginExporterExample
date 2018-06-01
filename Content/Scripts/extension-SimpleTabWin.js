@@ -7,7 +7,7 @@ function main()
     const EMaker = require('editor-maker');
     const Assert = require('assert');
 
-    // '// 'Unreal.js/Samples' 메뉴그룹이 없다면 생성한다. Samples' 메뉴그룹이 없다면 생성한다. 
+    // Samples' 메뉴그룹이 없다면 생성한다. 
     if(!global.editorGroup){
         global.editorGroup = JavascriptEditorLibrary.GetGroup('Root').AddGroup('Unreal.js').AddGroup('Samples');
     }
@@ -24,7 +24,6 @@ function main()
             msg = 'This is a normal window. \nThis is a normal window. \nThis is a normal window. \nThis is a normal window.';
         }
 
-        /** @type {TextBlock} */
         let design = UMG(JavascriptWindow, 
             {
                 AutoCenter:EJavascriptAutoCenter.PrimaryWorkArea,
@@ -32,6 +31,7 @@ function main()
                 SupportsMaximize:false,
                 Title:title
             },
+            // TextBlock
             UMG.text(
                 {
                     MinDesiredWidth:200,
@@ -40,25 +40,29 @@ function main()
         );
         if (isModal)
         {
-            /** Modal 윈도우 @type {JavascriptSlateWidget} */
+            // JavascriptSlateWidget
             I(design).TakeWidget().EditorAddModalWindow();
         }
         else
         {
-            /** 일반 윈도우 @type {JavascriptSlateWidget} */
+            // JavascriptSlateWidget
             I(design).TakeWidget().AddWindow(true);
         }
     }
 
-    /** 루트 컨텐츠 위젯: @type {Widget} */
+    /** 루트 컨텐츠 위젯
+     * @type {Widget}
+     **/
     let rootContent = null;
-    /** 탭 스포너: @type {JavascriptEditorTab} */
+    /** 탭 스포너
+     * @type {JavascriptEditorTab} 
+     **/
     let rootWindowTab = null;
     function registerMainWindow() {
         rootWindowTab = EMaker.tabSpawner(
             // 옵션 파라미터
             {
-                DisplayName:'Simple Tab Win',
+                DisplayName:'Sample Tab Window',
                 TabId: 'SimpleTabWin@',
                 Role: EJavascriptTabRole.MajorTab,
                 Group: global.editorGroup

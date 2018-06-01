@@ -1,7 +1,9 @@
+
 'use strict';
 
 function main()
 {
+    const _ = require('lodash');
     const UMG = require('UMG');
     const I = require('instantiator');
     const EMaker = require('editor-maker');
@@ -59,6 +61,7 @@ function main()
         
         // 게임 컨텐츠 경로 얻어오기
         let contentRootPath = Root.GetDir('GameContent');
+        
         //Editor window with tab simple template
         EMaker.tabSpawner(
             {

@@ -1,3 +1,7 @@
+/// <reference path="typings/ue.d.ts">/>
+// In older versions of VS Code you needed to reference your typings like <reference path> for somelibrary.d.ts.
+// With new version you need to initialize your project by creating jsconfig.json
+
 'use strict';
 
 function main() {
@@ -45,17 +49,12 @@ function main() {
                 SizingRule:'AutoSized', 
                 Title:'Modal Window'
             },
-            UMG.text(
-                {
-                    Font:SmallFontSetting, 
-                    Slot:
-                    {
-                        Size:
-                        {
-                            SizeRule:ESlateSizeRule.Fill
-                        },
-                        HorizontalAlignment:EHorizontalAlignment.HAlign_Center
-                    }
+            // EditableTextBox
+            UMG.input(
+                { 
+                    Font:SmallFontSetting,
+                    IsReadOnly:true,
+                    MinimumDesiredWidth:400
                 }, 
                 msg
             )
@@ -88,7 +87,7 @@ function main() {
                         // 두 버튼 가운데 정렬
                         'Slot.HorizontalAlignment':EHorizontalAlignment.HAlign_Center
                     }, 
-                    UMG.box( 
+                    UMG(SizeBox,
                         {
                             // 최소 가로사이즈를 최대로 놓고, Fill로 설정하면, 
                             // 창사이즈에 따라 버튼 사이즈가 늘어난다.
@@ -96,7 +95,7 @@ function main() {
                             'Slot.Size.SizeRule':ESlateSizeRule.Fill
                         }, UMG(Button, {ColorAndOpacity:btnFColor}, 'A')
                     ),
-                    UMG.box(
+                    UMG(SizeBox,
                         {
                             MinDesiredWidth: 10000,
                             'Slot.Size.SizeRule':ESlateSizeRule.Fill

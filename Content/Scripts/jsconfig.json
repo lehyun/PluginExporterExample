@@ -1,7 +1,10 @@
 {	
 	"compilerOptions": {
 		"target": "ES6",
+		"module": "commonjs",
 		"noLib": false,
-		"charset": "utf8"
+		"charset": "utf8",
+		"baseUrl": "./",
+		"paths": { "*": [ "*", "../../Plugins/UnrealJS/Content/Scripts/*" ] }
 	}
 }

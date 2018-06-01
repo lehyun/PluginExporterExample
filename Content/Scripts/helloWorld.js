@@ -1,5 +1,7 @@
 /// <reference path="typings/ue.d.ts">/>
-// ; typing info for auto-completion in Visual Studio Code
+// typing info for auto-completion in Visual Studio Code
+// In older versions of VS Code you needed to reference your typings like <reference path> for somelibrary.d.ts.
+// With new version you need to initialize your project by creating jsconfig.json
 
 "use strict"
 

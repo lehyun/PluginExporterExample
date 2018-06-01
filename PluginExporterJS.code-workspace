@@ -6,5 +6,10 @@
 		{
 			"path": "Plugins\\UnrealJS\\Content\\Scripts"
 		}
-	]
+	],
+	"settings": {
+		"path-autocomplete.pathMappings": {
+			"/Game": "${folder}/../../Content"
+		}
+	}
 }
