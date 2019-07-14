@@ -10,6 +10,7 @@
 	"settings": {
 		"path-autocomplete.pathMappings": {
 			"/Game": "${folder}/../../Content"
-		}
+		},
+		"git.ignoreLimitWarning": true
 	}
 }
